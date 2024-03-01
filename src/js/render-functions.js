@@ -3,14 +3,26 @@
 import iziToast from 'izitoast';
 
 export function renderImages(images, list) {
-    if (images.length === 0) {
-        iziToast.error({
-            title: '',
-            message: 'Sorry, there are no images matching your search query. Please, try again!',
-            position: 'topRight',
-        });
-    }
-    list.innerHTML = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+  if (images.length === 0) {
+    iziToast.error({
+      title: '',
+      message:
+        'Sorry, there are no images matching your search query. Please, try again!',
+      position: 'topRight',
+    });
+      return;
+  }
+  const markup = images
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
         return `<li class="gallery-item">
                     <a class="gallery-link" href="${largeImageURL}">
                         <img class="gallery-image" src="${webformatURL}" alt="${tags}" />
@@ -34,12 +46,15 @@ export function renderImages(images, list) {
                         </div>
                     </div>
                 </li>`;
-    }).join('');
+      }
+    )
+    .join('');
+  list.insertAdjacentHTML('beforeend', markup);
 }
 
 export function clearList(list, gallery) {
-    list.innerHTML = '';
-     if (gallery) {
-       gallery.refresh();
-     }
+  list.innerHTML = '';
+  if (gallery) {
+    gallery.refresh();
+  }
 }
